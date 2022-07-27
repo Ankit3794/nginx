@@ -1,0 +1,13 @@
+---
+# tasks file for nginx
+    - name: install packages
+      become: true
+      become_user: root
+      action: >
+        {{ ansible_pkg_mgr }} name=wget,nginx state=present update_cache=yes
+    - name: copy index.html
+      template:
+        src=templates/index.html.j2
+        dest=/usr/share/nginx/html/index.html
+      notify:
+        - Restart Nginx
